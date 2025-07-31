@@ -15,7 +15,7 @@ class GzBus : public BusManagerTpl<GzBus, GzDevice> {
 
   void WriteBus();
   void ReadBus();
-  void UpdateDevices();
+  // void UpdateDevices();
 
   inline void SetInterface(const RosInterface::Ptr ros_interface) {
     ros_interface_ = ros_interface;

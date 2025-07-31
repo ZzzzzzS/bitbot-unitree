@@ -15,6 +15,7 @@ class GzKernel
   GzKernel(std::string config_file)
       : KernelTpl<GzKernel<UserData, cts...>, GzBus, UserData, cts...>(
             config_file) {
+    // TODO
     pugi::xml_node const& bitbot_node = this->parser_->GetBitbotNode();
 
     ros_interface_ = std::make_shared<RosInterface>();
@@ -31,10 +32,37 @@ class GzKernel
   }
 
   void doRun() {
+    // this->busmanager_.UpdateDevices();
+    std::chrono::high_resolution_clock::time_point this_time =
+        std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point last_time = this_time;
+    std::chrono::high_resolution_clock::time_point end_time = this_time;
+
     while (rclcpp::ok()) {
-      while (ros_interface_->IsTimerReady()) {
+      while (ros_interface_->IsClockReady()) {
         std::this_thread::sleep_for(std::chrono::microseconds(10));
       }
+
+      this->kernel_runtime_data_.kernel_loop_count++;
+      this->kernel_runtime_data_.periods_count++;
+      this_time = std::chrono::high_resolution_clock::now();
+      this->kernel_runtime_data_.period =
+          std::chrono::duration_cast<std::chrono::nanoseconds>(this_time -
+                                                               last_time)
+              .count() /
+          1e6;
+      last_time = this_time;
+
+      this->HandleEvents();
+      this->KernelLoopTask();
+      end_time = std::chrono::high_resolution_clock::now();
+      this->kernel_runtime_data_.process_time =
+          std::chrono::duration_cast<std::chrono::nanoseconds>(end_time -
+                                                               this_time)
+              .count() /
+          1e6;
+
+      this->KernelPrivateLoopEndTask();
     }
   }
 

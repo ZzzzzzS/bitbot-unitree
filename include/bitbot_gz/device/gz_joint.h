@@ -18,23 +18,37 @@ class GzJoint final : public GzDevice {
   ~GzJoint();
 
  private:
-  virtual void UpdateModel() final;
-  virtual void Input() final;
-  virtual void Output() final;
+  virtual void Input(const RosInterface::Ptr ros_interface) final;
+  virtual void Output(const RosInterface::Ptr ros_interface) final;
   virtual void UpdateRuntimeData() final;
+
+  inline double GetActualPosition() { return actual_position_; }
+
+  inline double GetActualVelocity() { return actual_velocity_; }
+
+  inline double GetActualTorque() { return actual_torque_; }
+
+  inline void SetTargetPosition(double pos) { target_position_ = pos; }
+
+  inline void SetTargetVelocity(double vel) { target_velocity_ = vel; }
+
+  inline void SetTargetTorque(double torque) { target_torque_ = torque; }
 
  private:
   GzJointType joint_type_;
   bool enable_ = true;
-  double actual_position_ = 0;
-  double actual_velocity_ = 0;
-  double actual_torque_ = 0;
-  double target_position_ = 0;
-  double target_velocity_ = 0;
-  double target_torque_ = 0;
-  double p_gain = 0.0;
-  double d_gain = 0.0;
-  double i_gain = 0.0;
+
+  double initial_pos_ = 0.0;
+  double p_gain_ = 0.0;
+  double d_gain_ = 0.0;
+  double i_gain_ = 0.0;
+
+  double actual_position_ = 0.0;
+  double actual_velocity_ = 0.0;
+  double actual_torque_ = 0.0;
+  double target_position_ = 0.0;
+  double target_velocity_ = 0.0;
+  double target_torque_ = 0.0;
 };
 
 }  // namespace bitbot

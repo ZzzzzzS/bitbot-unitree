@@ -19,20 +19,21 @@ void GzBus::doRegisterDevices() {
 
 void GzBus::WriteBus() {
   for (auto& device : devices_) {
-    device->Output();
+    device->Output(ros_interface_);
   }
+  ros_interface_->PublishJointCommand();
 }
 
 void GzBus::ReadBus() {
   for (auto& device : devices_) {
-    device->Input();
+    device->Input(ros_interface_);
   }
 }
 
-void GzBus::UpdateDevices() {
-  for (auto& device : devices_) {
-    device->UpdateModel();
-  }
-}
+// void GzBus::UpdateDevices() {
+//   for (auto& device : devices_) {
+//     device->UpdateModel();
+//   }
+// }
 
 }  // namespace bitbot

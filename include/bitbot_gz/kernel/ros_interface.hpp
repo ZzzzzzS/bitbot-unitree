@@ -2,6 +2,7 @@
 #define GZ_NODE_HPP
 
 #include "rclcpp/rclcpp.hpp"
+#include "rosgraph_msgs/msg/clock.hpp"
 #include "sensor_msgs/msg/imu.hpp"
 #include "sensor_msgs/msg/joint_state.hpp"
 #include "std_msgs/msg/float64_multi_array.hpp"
@@ -31,14 +32,18 @@ class RosInterface : public rclcpp::Node {
           std::lock_guard<std::mutex> lock(this->data_lock_);
           this->imu_msg_ = msg;
         });
-    kernel_timer_ = this->create_wall_timer(
-        1ms, [this]() -> void { this->timer_ready_.store(true); });
+    clock_subscriber_ = this->create_subscription<rosgraph_msgs::msg::Clock>(
+        "/clock", 10, [this](const rosgraph_msgs::msg::Clock::SharedPtr msg) {
+          this->clock_count_++;
+          // Clock rate is 1000
+          timer_ready_.store(true);
+        });
   }
 
   ~RosInterface() = default;
 
-  void PublishJointCommand(std_msgs::msg::Float64MultiArray const& msg) {
-    joint_command_publisher_->publish(msg);
+  void PublishJointCommand() {
+    joint_command_publisher_->publish(joint_command_msg_);
   }
 
   sensor_msgs::msg::JointState::SharedPtr GetJointState() {
@@ -46,17 +51,29 @@ class RosInterface : public rclcpp::Node {
     return joint_state_msg_;
   }
 
+  std_msgs::msg::Float64MultiArray& GetJointCommand() {
+    return joint_command_msg_;
+  }
+
   sensor_msgs::msg::Imu::SharedPtr GetImuData() {
     std::lock_guard<std::mutex> lock(data_lock_);
     return imu_msg_;
   }
 
-  bool IsTimerReady() {
+  bool IsClockReady() {
     if (timer_ready_.load()) {
       timer_ready_.store(false);
       return true;
     }
     return false;
+  }
+
+  bool IsSystemReady() {
+    std::lock_guard<std::mutex> lock(this->data_lock_);
+    if (joint_state_msg_ != nullptr && imu_msg_ != nullptr)
+      return true;
+    else
+      return false;
   }
 
   static void RunRosSpin(SharedPtr ptr) {
@@ -70,10 +87,13 @@ class RosInterface : public rclcpp::Node {
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr
       joint_state_subscriber_;
   rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_subscriber_;
-  rclcpp::TimerBase::SharedPtr kernel_timer_;
+  rclcpp::Subscription<rosgraph_msgs::msg::Clock>::SharedPtr clock_subscriber_;
+
+  size_t clock_count_ = 0;
 
   std::mutex data_lock_;
   sensor_msgs::msg::JointState::SharedPtr joint_state_msg_;
+  std_msgs::msg::Float64MultiArray joint_command_msg_;
   sensor_msgs::msg::Imu::SharedPtr imu_msg_;
   std::atomic_bool timer_ready_;
 };

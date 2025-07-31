@@ -1,6 +1,7 @@
 #ifndef GZ_DEVICE_HPP
 #define GZ_DEVICE_HPP
 
+#include "bitbot_gz/kernel/ros_interface.hpp"
 #include "bitbot_kernel/device/device.hpp"
 
 namespace bitbot {
@@ -20,9 +21,9 @@ class GzDevice : public Device {
   ~GzDevice() = default;
 
   // Method to w/r gz simulation
-  virtual void UpdateModel() = 0;
-  virtual void Input() = 0;
-  virtual void Output() = 0;
+  // virtual void UpdateModel() = 0;
+  virtual void Input(const RosInterface::Ptr ros_interface) = 0;
+  virtual void Output(const RosInterface::Ptr ros_interface) = 0;
 
   // Inherited from Device base calss
   virtual void UpdateRuntimeData() = 0;

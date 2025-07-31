@@ -5,8 +5,6 @@
 int main(int argc, char** argv) {
   rclcpp::init(argc, argv);
 
-  bitbot::GzKernel<int, "1">* ptr;
   rclcpp::shutdown();
-
   return 0;
 }

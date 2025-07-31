@@ -316,7 +316,8 @@
     <collision>
       <geometry>
         <mesh
-          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot.stl" />
+          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot_visual.stl" />
+        <!-- filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot.stl" /> -->
       </geometry>
     </collision>
   </link>
@@ -616,7 +617,8 @@
     <collision>
       <geometry>
         <mesh
-          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot.stl" />
+          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot_visual.stl" />
+        <!-- filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot.stl" /> -->
       </geometry>
     </collision>
   </link>
