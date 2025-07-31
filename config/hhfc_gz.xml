@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bitbot>
+  <logger path="../../log/" level="info"/>
+  <backend port="12888" settings_file="./backend.json"/>
+  <!-- TODO: Define topic name in configure file -->
+  <bus>
+    <device id="0" type="GazeboJoint" name="Rarm_shoulder_p_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="1" type="GazeboJoint" name="Larm_shoulder_p_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="3" type="GazeboImu" name="imu"/>
+
+    <device id="4" type="GazeboJoint" name="Rleg_hip_p_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="5" type="GazeboJoint" name="Rleg_hip_r_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="6" type="GazeboJoint" name="Rleg_hip_y_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="7" type="GazeboJoint" name="Rleg_knee_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="8" type="GazeboJoint" name="Rleg_ankle_p_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="9" type="GazeboJoint" name="Rleg_ankle_r_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+
+    <device id="10" type="GazeboJoint" name="Lleg_hip_p_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="11" type="GazeboJoint" name="Lleg_hip_r_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="12" type="GazeboJoint" name="Lleg_hip_y_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="13" type="GazeboJoint" name="Lleg_knee_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="14" type="GazeboJoint" name="Lleg_ankle_p_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+    <device id="15" type="GazeboJoint" name="Lleg_ankle_r_joint" mode="torque"
+            p_gain='0' d_gain='0' i_gain='0'/>
+
+  </bus>
+</bitbot>

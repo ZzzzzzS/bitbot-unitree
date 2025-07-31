@@ -1,0 +1,25 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 1000
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+effort_controller:
+  ros__parameters:
+    type: effort_controllers/JointGroupEffortController
+    joints:
+      - Lleg_hip_p_joint
+      - Lleg_hip_r_joint
+      - Lleg_hip_y_joint
+      - Lleg_knee_joint
+      - Lleg_ankle_p_joint
+      - Lleg_ankle_r_joint
+      - Rleg_hip_p_joint
+      - Rleg_hip_r_joint
+      - Rleg_hip_y_joint
+      - Rleg_knee_joint
+      - Rleg_ankle_p_joint
+      - Rleg_ankle_r_joint
+      - Larm_shoulder_p_joint
+      - Rarm_shoulder_p_joint

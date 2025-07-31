@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot
+  name="hhfc_sf">
+  <link
+    name="base_thorax">
+    <inertial>
+      <origin
+        xyz="0.0071545 -0.00014864 0.10711"
+        rpy="0 0 0" />
+      <mass
+        value="20" />
+      <inertia
+        ixx="0.096973"
+        ixy="-2.6251E-05"
+        ixz="0.00041701"
+        iyy="0.056865"
+        iyz="2.8904E-05"
+        izz="0.10587" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/base_thorax.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.2" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.4 0.35 0.6"/>
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Lleg_hip_p">
+    <inertial>
+      <origin
+        xyz="-0.0065868 0.038281 -0.019058"
+        rpy="0 0 0" />
+      <mass
+        value="0.8" />
+      <inertia
+        ixx="0.0016035"
+        ixy="1.5686E-08"
+        ixz="9.1356E-09"
+        iyy="0.0015643"
+        iyz="0.00011528"
+        izz="0.0013847" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Lleg_hip_p.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Lleg_hip_p_joint"
+    type="revolute">
+    <origin
+      xyz="0.0074413 0.070763 -0.096701"
+      rpy="-2.9839E-05 0 -1.2361E-05" />
+    <parent
+      link="base_thorax" />
+    <child
+      link="Lleg_hip_p" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-1.5708"
+      upper="3.1416"
+      effort="250"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Lleg_hip_r">
+    <inertial>
+      <origin
+        xyz="0.041051 0.0017918 -0.012588"
+        rpy="0 0 0" />
+      <mass
+        value="2.4" />
+      <inertia
+        ixx="0.0024447"
+        ixy="-1.2696E-05"
+        ixz="8.244E-05"
+        iyy="0.0016929"
+        iyz="3.4648E-05"
+        izz="0.0018226" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Lleg_hip_r.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Lleg_hip_r_joint"
+    type="revolute">
+    <origin
+      xyz="-0.048264 0.063739 -0.039998"
+      rpy="-2.9839E-05 -3.118E-05 1.2362E-05" />
+    <parent
+      link="Lleg_hip_p" />
+    <child
+      link="Lleg_hip_r" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.12217"
+      upper="0.52359" 
+      effort="100"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Lleg_hip_y">
+    <inertial>
+      <origin
+        xyz="0.0012764 -0.012311 -0.11618"
+        rpy="0 0 0" />
+      <mass
+        value="4.7" />
+      <inertia
+        ixx="0.0060244"
+        ixy="-1.1206E-05"
+        ixz="0.00017115"
+        iyy="0.0072895"
+        iyz="-0.00032616"
+        izz="0.0043397" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Lleg_hip_y.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Lleg_hip_y_joint"
+    type="revolute">
+    <origin
+      xyz="0.048263 0.0075949 -0.073228"
+      rpy="-0.0012842 0 0" />
+    <parent
+      link="Lleg_hip_r" />
+    <child
+      link="Lleg_hip_y" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.0472"
+      upper="1.2217" 
+      effort="100"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Lleg_knee">
+    <inertial>
+      <origin
+        xyz="-0.0071953 0.00012337 -0.15866"
+        rpy="0 0 0" />
+      <mass
+        value="4.4" />
+      <inertia
+        ixx="0.015917"
+        ixy="-5.6662E-06"
+        ixz="-9.5855E-05"
+        iyy="0.017102"
+        iyz="-0.00022504"
+        izz="0.0020767" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Lleg_knee.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Lleg_knee_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.27926"
+      rpy="0 0 0" />
+    <parent
+      link="Lleg_hip_y" />
+    <child
+      link="Lleg_knee" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-1.5708"
+      upper="0"
+      effort="250"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Lleg_ankle_p">
+    <inertial>
+      <origin
+        xyz="0.0010341 -8.5615E-08 7.218E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.24" />
+      <inertia
+        ixx="2.9623E-05"
+        ixy="-2.687E-10"
+        ixz="-5.7763E-10"
+        iyy="2.6222E-05"
+        iyz="8.9807E-10"
+        izz="4.3137E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Lleg_ankle_p.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Lleg_ankle_p_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.35"
+      rpy="0 0 0" />
+    <parent
+      link="Lleg_knee" />
+    <child
+      link="Lleg_ankle_p" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-0.6981317007977318"
+      upper="0.6981317007977318"
+      effort="100"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Lleg_ankle_r">
+    <inertial>
+      <origin
+        xyz="0.021653 2.4677E-08 -0.044273"
+        rpy="0 0 0" />
+      <mass
+        value="0.88" />
+      <inertia
+        ixx="0.0012516"
+        ixy="-1.099E-08"
+        ixz="0.00011963"
+        iyy="0.0029662"
+        iyz="-3.6099E-10"
+        izz="0.0039874" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot_visual.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Lleg_ankle_r_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="Lleg_ankle_p" />
+    <child
+      link="Lleg_ankle_r" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.3490658503988659"
+      upper="0.3490658503988659"
+      effort="100"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Rleg_hip_p">
+    <inertial>
+      <origin
+        xyz="-0.0065825 -0.038282 -0.019058"
+        rpy="0 0 0" />
+      <mass
+        value="0.8" />
+      <inertia
+        ixx="0.0016035"
+        ixy="-1.5667E-08"
+        ixz="-9.2038E-09"
+        iyy="0.0015643"
+        iyz="-0.00011529"
+        izz="0.0013847" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Rleg_hip_p.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Rleg_hip_p_joint"
+    type="revolute">
+    <origin
+      xyz="0.0074402 -0.070762 -0.096701"
+      rpy="2.9839E-05 0 -1.2361E-05" />
+    <parent
+      link="base_thorax" />
+    <child
+      link="Rleg_hip_p" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-1.5708"
+      upper="3.1416"
+      effort="250"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Rleg_hip_r">
+    <inertial>
+      <origin
+        xyz="0.040804 -0.0018825 -0.012645"
+        rpy="0 0 0" />
+      <mass
+        value="2.4" />
+      <inertia
+        ixx="0.0024443"
+        ixy="1.499E-05"
+        ixz="8.1453E-05"
+        iyy="0.0016917"
+        iyz="-3.5389E-05"
+        izz="0.0018218" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Rleg_hip_r.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Rleg_hip_r_joint"
+    type="revolute">
+    <origin
+      xyz="-0.048261 -0.063738 -0.039998"
+      rpy="-2.9839E-05 -3.118E-05 1.2362E-05" />
+    <parent
+      link="Rleg_hip_p" />
+    <child
+      link="Rleg_hip_r" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.52359"
+      upper="0.12217" 
+      effort="100"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Rleg_hip_y">
+    <inertial>
+      <origin
+        xyz="0.0012764 0.012311 -0.11618"
+        rpy="0 0 0" />
+      <mass
+        value="4.7" />
+      <inertia
+        ixx="0.0059932"
+        ixy="1.1193E-05"
+        ixz="0.00017278"
+        iyy="0.0072308"
+        iyz="0.000326"
+        izz="0.0043094" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Rleg_hip_y.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Rleg_hip_y_joint"
+    type="revolute">
+    <origin
+      xyz="0.048263 -0.0075949 -0.073228"
+      rpy="-0.0012842 3.118E-05 0" />
+    <parent
+      link="Rleg_hip_r" />
+    <child
+      link="Rleg_hip_y" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.2217"
+      upper="1.0472"
+      effort="100"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Rleg_knee">
+    <inertial>
+      <origin
+        xyz="-0.0071953 -0.00012337 -0.15866"
+        rpy="0 0 0" />
+      <mass
+        value="4.4" />
+      <inertia
+        ixx="0.015917"
+        ixy="6.1742E-06"
+        ixz="-9.365E-05"
+        iyy="0.017101"
+        iyz="0.0002262"
+        izz="0.002076" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Rleg_knee.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Rleg_knee_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.27926"
+      rpy="0 0 0" />
+    <parent
+      link="Rleg_hip_y" />
+    <child
+      link="Rleg_knee" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-1.5708"
+      upper="0"
+      effort="250"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Rleg_ankle_p">
+    <inertial>
+      <origin
+        xyz="0.0010341 8.5615E-08 7.218E-08"
+        rpy="0 0 0" />
+      <mass
+        value="0.24" />
+      <inertia
+        ixx="2.9623E-05"
+        ixy="-2.687E-10"
+        ixz="5.7763E-10"
+        iyy="2.6222E-05"
+        iyz="-8.9807E-10"
+        izz="4.3137E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Rleg_ankle_p.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Rleg_ankle_p_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 -0.35"
+      rpy="0 0 0" />
+    <parent
+      link="Rleg_knee" />
+    <child
+      link="Rleg_ankle_p" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-0.6981317007977318"
+      upper="0.6981317007977318"
+      effort="100"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Rleg_ankle_r">
+    <inertial>
+      <origin
+        xyz="0.021653 -2.4677E-08 -0.044273"
+        rpy="0 0 0" />
+      <mass
+        value="0.88" />
+      <inertia
+        ixx="0.0012516"
+        ixy="-1.0994E-08"
+        ixz="0.00011963"
+        iyy="0.0029662"
+        iyz="-3.5856E-10"
+        izz="0.0039874" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot_visual.stl" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot.stl" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Rleg_ankle_r_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="Rleg_ankle_p" />
+    <child
+      link="Rleg_ankle_r" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.3490658503988659"
+      upper="0.3490658503988659"
+      effort="100"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Larm_shoulder_p">
+    <inertial>
+      <origin
+        xyz="-4.1326E-06 0.029486 -0.15771"
+        rpy="0 0 0" />
+      <mass
+        value="0.9" />
+      <inertia
+        ixx="0.001659"
+        ixy="-4.75E-09"
+        ixz="2.8129E-09"
+        iyy="0.0017524"
+        iyz="0.00017891"
+        izz="0.00054732" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Larm_shoulder_p.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Larm_shoulder_p_joint"
+    type="revolute">
+    <origin
+      xyz="0.0074411 0.17676 0.2503"
+      rpy="-3.118E-05 0 0" />
+    <parent
+      link="base_thorax" />
+    <child
+      link="Larm_shoulder_p" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="100"
+      velocity="5000" />
+  </joint>
+  <link
+    name="Rarm_shoulder_p">
+    <inertial>
+      <origin
+        xyz="0.00015217 -0.029574 -0.15842"
+        rpy="0 0 0" />
+      <mass
+        value="0.9" />
+      <inertia
+        ixx="0.0016592"
+        ixy="1.6228E-07"
+        ixz="1.033E-06"
+        iyy="0.0017528"
+        iyz="-0.00017891"
+        izz="0.00054756" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://bitbot_gz/urdf/hhfc/meshes/Rarm_shoulder_p.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+  </link>
+  <joint
+    name="Rarm_shoulder_p_joint"
+    type="revolute">
+    <origin
+      xyz="0.0074404 -0.17676 0.2503"
+      rpy="3.1181E-05 0.0016214 0" />
+    <parent
+      link="base_thorax" />
+    <child
+      link="Rarm_shoulder_p" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="100"
+      velocity="5000" />
+  </joint>
+  <!-- ros_control -->
+  <ros2_control name="GazeboSimSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <joint name="Lleg_hip_p_joint">
+      <command_interface name="effort">
+        <param name="min">-250</param>
+        <param name="max">250</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.3</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Lleg_hip_r_joint">
+      <command_interface name="effort">
+        <param name="min">-100</param>
+        <param name="max">100</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Lleg_hip_y_joint">
+      <command_interface name="effort">
+        <param name="min">-100</param>
+        <param name="max">100</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Lleg_knee_joint">
+      <command_interface name="effort">
+        <param name="min">-250</param>
+        <param name="max">250</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">-0.6</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Lleg_ankle_p_joint">
+      <command_interface name="effort">
+        <param name="min">-100</param>
+        <param name="max">100</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">-0.3</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Lleg_ankle_r_joint">
+      <command_interface name="effort">
+        <param name="min">-100</param>
+        <param name="max">100</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Rleg_hip_p_joint">
+      <command_interface name="effort">
+        <param name="min">-250</param>
+        <param name="max">250</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.3</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Rleg_hip_r_joint">
+      <command_interface name="effort">
+        <param name="min">-100</param>
+        <param name="max">100</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Rleg_hip_y_joint">
+      <command_interface name="effort">
+        <param name="min">-100</param>
+        <param name="max">100</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Rleg_knee_joint">
+      <command_interface name="effort">
+        <param name="min">-250</param>
+        <param name="max">250</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">-0.6</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Rleg_ankle_p_joint">
+      <command_interface name="effort">
+        <param name="min">-100</param>
+        <param name="max">100</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">-0.3</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Rleg_ankle_r_joint">
+      <command_interface name="effort">
+        <param name="min">-100</param>
+        <param name="max">100</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Larm_shoulder_p_joint">
+      <command_interface name="effort">
+        <param name="min">-100</param>
+        <param name="max">100</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+    <joint name="Rarm_shoulder_p_joint">
+      <command_interface name="effort">
+        <param name="min">-100</param>
+        <param name="max">100</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+  </ros2_control>
+  <!-- gz_control plugin -->
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find bitbot_gz)/config/hhfc_gz_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+  <!--IMU plugin-->
+  <gazebo reference="base_thorax">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>200</update_rate>
+      <visualize>true</visualize>
+      <topic>imu_data</topic>
+      <plugin filename="ignition-gazebo-imu-system" name="ignition::gazebo::systems::Imu">
+        <ros>
+          <namespace></namespace>
+          <remapping>imu_data:=imu_data</remapping>
+        </ros>
+      </plugin>
+    </sensor>
+  </gazebo>
+</robot>
