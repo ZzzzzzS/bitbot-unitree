@@ -39,7 +39,7 @@ RobotConfig:
 
   observer:
     log_data: true
-    log_dir: "/home/dknt/Project/bitbot-gz-ws/log/extra"
+    log_dir: "/home/dknt/Project/bitbot_gz_ws/log/extra"
     motor_pos_filter:
       # type: "None"
       type: "PassThrough"
@@ -189,11 +189,11 @@ RobotConfig:
       use_absolute_clock: false
       control_period: 0.01
       stand_threshold: 0.045
-      model_path: "/home/dknt/Project/bitbot-ovinf/checkpoint/hhfc/robust_beta.onnx"
+      model_path: "/home/dknt/Project/bitbot_gz_ws/src/bitbot-gz/checkpoint/robust_beta.onnx"
       obs_buffer_size: 15
 
       log_data: true
-      log_dir: "/home/dknt/Project/bitbot-gz-ws/log/policy"
+      log_dir: "/home/dknt/Project/bitbot_gz_ws/log/policy"
       log_name: "standing"
 
       device: "CPU"
@@ -249,17 +249,16 @@ RobotConfig:
       policy_type: "Humanoid"
       use_absolute_clock: false
       control_period: 0.01
-      model_path: "/home/dknt/Project/bitbot-ovinf/checkpoint/hhfc/alpha_msl.onnx"
+      model_path: "/home/dknt/Project/bitbot_gz_ws/src/bitbot-gz/checkpoint/alpha_msl.onnx"
       obs_buffer_size: 15
 
       log_data: true
-      log_dir: "/home/dknt/Project/bitbot-gz-ws/log//policy"
+      log_dir: "/home/dknt/Project/bitbot_gz_ws/log//policy"
       log_name: "walking"
 
       device: "CPU"
       cycle_time: 0.90
-      # single_obs_size: 47
-      single_obs_size: 45
+      single_obs_size: 47
       action_size: 12
       action_scale: 0.5
       obs_scales:
@@ -286,10 +285,10 @@ RobotConfig:
       use_absolute_clock: false
       control_period: 0.01
       obs_buffer_size: 15
-      model_path: "/home/dknt/Project/bitbot-ovinf/checkpoint/hhfc/terrain_alpha.onnx"
+      model_path: "/home/dknt/Project/bitbot_gz_ws/src/bitbot-gz/checkpoint/terrain_alpha.onnx"
 
       log_data: true
-      log_dir: "/home/dknt/Project/bitbot-gz-ws/log//policy"
+      log_dir: "/home/dknt/Project/bitbot_gz_ws/log//policy"
       log_name: "robust"
 
       device: "CPU"

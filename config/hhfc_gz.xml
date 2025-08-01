@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <bitbot>
-  <logger path="/home/dknt/Project/bitbot-gz-ws/log/" level="info"/>
+  <logger path="/home/dknt/Project/bitbot_gz_ws/log/" level="info"/>
   <backend port="12888" settings_file="./backend.json"/>
   <bus>
     <device id="0" type="GzJoint" name="Rarm_shoulder_p_joint" 

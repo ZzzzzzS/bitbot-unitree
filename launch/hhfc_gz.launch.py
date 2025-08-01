@@ -22,20 +22,12 @@ def generate_launch_description():
     declared_arguments = []
     declared_arguments.append(
         DeclareLaunchArgument(
-            "gui",
-            default_value="true",
-            description="Launch Gazebo with GUI",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
             "rviz",
             default_value="false",
             description="Launch RViz",
         )
     )
 
-    gui = LaunchConfiguration("gui")
     rviz = LaunchConfiguration("rviz")
 
     gazebo_world_file = PathJoinSubstitution(
@@ -45,20 +37,24 @@ def generate_launch_description():
             "empty.sdf",
         ]
     )
+    gazebo_gui_config = PathJoinSubstitution(
+        [
+            FindPackageShare("bitbot_gz"),
+            "world",
+            "gui.config",
+        ]
+    )
 
     gazebo_gui = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [FindPackageShare("ros_gz_sim"), "/launch/gz_sim.launch.py"]
         ),
-        launch_arguments=[("gz_args", ["-r -v 3 ", gazebo_world_file])],
-        condition=IfCondition(gui),
-    )
-    gazebo_headless = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [FindPackageShare("ros_gz_sim"), "/launch/gz_sim.launch.py"]
-        ),
-        launch_arguments=[("gz_args", ["--headless-rendering -s -r -v 3 empty.sdf"])],
-        condition=UnlessCondition(gui),
+        launch_arguments=[
+            (
+                "gz_args",
+                ["-r -v 3 ", gazebo_world_file, " --gui-config ", gazebo_gui_config],
+            ),
+        ],
     )
 
     gazebo_bridge_node = Node(
@@ -168,7 +164,6 @@ def generate_launch_description():
     nodes = [
         set_gz_env_var,
         gazebo_gui,
-        gazebo_headless,
         gazebo_bridge_node,
         robot_state_publisher_node,
         gz_spawn_entity_node,
