@@ -36,9 +36,11 @@ find_package(rosgraph_msgs REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 include_directories("/usr/include/eigen3")
 
+find_package(gz-sim8 REQUIRED)
+find_package(gz-plugin2 REQUIRED)
+
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/device BITBOT_GZ_DEVICE_SRC)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/bus BITBOT_GZ_BUS_SRC)
-aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/kernel BITBOT_GZ_KERNEL_SRC)
 set(BITBOT_GZ_SRC
   ${BITBOT_GZ_DEVICE_SRC}
   ${BITBOT_GZ_BUS_SRC}
@@ -72,9 +74,19 @@ target_link_libraries(main_app
   ovinf
 )
 
+add_library(RobotResetPlugin SHARED src/plugin/robot_reset_plugin.cc)
+target_link_libraries(RobotResetPlugin
+  gz-sim8::gz-sim8
+  gz-plugin2::gz-plugin2
+)
+
 install(TARGETS
   bitbot_gz main_app
   DESTINATION lib/${PROJECT_NAME}
+)
+install(TARGETS
+  RobotResetPlugin
+  DESTINATION share/${PROJECT_NAME}
 )
 install(
   DIRECTORY launch config urdf rviz world

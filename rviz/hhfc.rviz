@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /RobotModel1
-        - /RobotModel1/Status1
       Splitter Ratio: 0.5
     Tree Height: 594
   - Class: rviz_common/Selection
@@ -29,7 +28,7 @@ Visualization Manager:
       Cell Size: 1
       Class: rviz_default_plugins/Grid
       Color: 160; 160; 164
-      Enabled: true
+      Enabled: false
       Line Style:
         Line Width: 0.029999999329447746
         Value: Lines
@@ -42,7 +41,7 @@ Visualization Manager:
       Plane: XY
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
-      Value: true
+      Value: false
     - Alpha: 1
       Class: rviz_default_plugins/RobotModel
       Collision Enabled: false
@@ -190,25 +189,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 8.443930625915527
+      Distance: 3.4508283138275146
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.0044944556429982185
-        Y: 1.0785865783691406
-        Z: 2.4839563369750977
+        X: 0.08461994677782059
+        Y: 0.03566855192184448
+        Z: -0.005319961346685886
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.2503991723060608
+      Pitch: 0.015398736111819744
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.155422210693359
+      Yaw: 0.5772449374198914
     Saved: ~
 Window Geometry:
   Displays:
@@ -224,5 +223,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1440
-  X: 622
+  X: 480
   Y: 32

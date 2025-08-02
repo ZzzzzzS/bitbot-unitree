@@ -4,7 +4,7 @@ from launch.actions import (
     IncludeLaunchDescription,
     SetEnvironmentVariable,
 )
-from launch.conditions import IfCondition, UnlessCondition
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import (
     Command,
@@ -63,6 +63,8 @@ def generate_launch_description():
         arguments=[
             "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
             "/imu_data@sensor_msgs/msg/Imu[gz.msgs.IMU",
+            "/depth_camera/image_raw@sensor_msgs/msg/Image@gz.msgs.Image",
+            "/color_camera/image_raw@sensor_msgs/msg/Image@gz.msgs.Image",
         ],
         output="screen",
     )
@@ -162,13 +164,17 @@ def generate_launch_description():
         output="screen",
     )
 
-    set_gz_env_var = SetEnvironmentVariable(
+    set_gz_res_env = SetEnvironmentVariable(
         name="GZ_SIM_RESOURCE_PATH",
         value=[get_package_share_directory("bitbot_gz").rsplit("bitbot_gz", 1)[0]],
     )
-
+    set_gz_plg_env = SetEnvironmentVariable(
+        name="GZ_SIM_SYSTEM_PLUGIN_PATH",
+        value=[FindPackageShare("bitbot_gz")],
+    )
     nodes = [
-        set_gz_env_var,
+        set_gz_res_env,
+        set_gz_plg_env,
         gazebo_gui,
         gazebo_bridge_node,
         robot_state_publisher_node,

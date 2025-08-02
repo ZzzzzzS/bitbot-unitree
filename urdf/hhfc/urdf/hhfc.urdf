@@ -38,6 +38,31 @@
       </geometry>
     </collision>
   </link>
+
+  <link name="camera_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.02 0.1 0.02"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.0 0.0 1.0 0.7" />
+      </material>
+    </visual>
+  </link>
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="0.1 0.0 0.0" rpy="0 0.3490658503988659 0" />
+    <parent link="base_thorax" />
+    <child link="camera_link" />
+    <axis xyz="0 1 0" />
+    <limit effort="100.0" velocity="100.0" lower="-3.14" upper="3.14"/>
+  </joint>
+
   <link
     name="Lleg_hip_p">
     <inertial>
@@ -898,12 +923,14 @@
       <state_interface name="effort"/>
     </joint>
   </ros2_control>
+
   <!-- gz_control plugin -->
   <gazebo>
     <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find bitbot_gz)/config/hhfc_gz_controllers.yaml</parameters>
     </plugin>
   </gazebo>
+
   <!--IMU plugin-->
   <gazebo reference="base_thorax">
     <sensor name="imu_sensor" type="imu">
@@ -911,12 +938,100 @@
       <update_rate>200</update_rate>
       <visualize>true</visualize>
       <topic>imu_data</topic>
-      <plugin filename="ignition-gazebo-imu-system" name="ignition::gazebo::systems::Imu">
-        <!-- <ros> -->
-        <!--   <namespace></namespace> -->
-        <!--   <remapping>imu_data:=imu_data</remapping> -->
-        <!-- </ros> -->
-      </plugin>
+      <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
     </sensor>
+  </gazebo>
+
+  <!-- RGBD camera plugin -->
+  <gazebo reference="camera_link">
+    <sensor name='depth_camera_sensor' type='depth_camera'>
+      <pose>0 0 0 0 0 0</pose>
+      <topic>/depth_camera/image_raw</topic>
+      <camera_info_topic>/depth_camera/camera_info</camera_info_topic>
+      <update_rate>30</update_rate>
+      <camera name='depth_camera'>
+        <pose>0 0 0 0 0 0</pose>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R_FLOAT32</format>
+          <anti_aliasing>4</anti_aliasing>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>10</far>
+        </clip>
+        <noise>
+          <type>none</type>
+          <mean>0</mean>
+          <stddev>0</stddev>
+        </noise>
+        <distortion>
+          <k1>0</k1>
+          <k2>0</k2>
+          <k3>0</k3>
+          <p1>0</p1>
+          <p2>0</p2>
+          <center>0.5 0.5</center>
+        </distortion>
+        <lens>
+          <type>stereographic</type>
+          <scale_to_hfov>true</scale_to_hfov>
+          <cutoff_angle>1.5707963267948966</cutoff_angle>
+          <env_texture_size>256</env_texture_size>
+        </lens>
+      </camera>
+    </sensor>
+    <sensor name='color_camera_sensor' type='camera'>
+      <pose>0 0 0 0 0 0</pose>
+      <topic>/color_camera/image_raw</topic>
+      <camera_info_topic>/color_camera/camera_info</camera_info_topic>
+      <update_rate>30</update_rate>
+      <camera name='color_camera'>
+        <pose>0 0 0 0 0 0</pose>
+        <horizontal_fov>1.047</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>RGB_INT8</format>
+          <anti_aliasing>4</anti_aliasing>
+        </image>
+        <clip>
+          <near>0.10000000000000001</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>none</type>
+          <mean>0</mean>
+          <stddev>0</stddev>
+        </noise>
+        <distortion>
+          <k1>0</k1>
+          <k2>0</k2>
+          <k3>0</k3>
+          <p1>0</p1>
+          <p2>0</p2>
+          <center>0.5 0.5</center>
+        </distortion>
+        <lens>
+          <type>stereographic</type>
+          <scale_to_hfov>true</scale_to_hfov>
+          <cutoff_angle>1.5707963267948966</cutoff_angle>
+          <env_texture_size>256</env_texture_size>
+        </lens>
+      </camera>
+    </sensor>
+  </gazebo>
+
+  <!-- Customized plugin -->
+  <gazebo>
+    <plugin filename="RobotResetPlugin" name="gz::sim::systems::RobotResetPlugin"/>
+  </gazebo>
+
+  <gazebo>
+    <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
   </gazebo>
 </robot>
