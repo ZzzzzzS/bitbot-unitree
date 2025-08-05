@@ -32,7 +32,7 @@ class PosePublisher : public gz::sim::System,
 
     ros_node_ = rclcpp::Node::make_shared("gz_pose_publisher");
     pose_pub_ = ros_node_->create_publisher<geometry_msgs::msg::PoseStamped>(
-        "hhfc_base_pose", 10);
+        topic_name_, 10);
 
     gzmsg << "PosePublisher plugin initialized for model: " << model_name_
           << std::endl;
@@ -55,7 +55,6 @@ class PosePublisher : public gz::sim::System,
               gzmsg << "Found model entity: " << model_name_ << std::endl;
               return false;
             }
-            std::cout << name->Data() << std::endl;
             return true;
           });
 
