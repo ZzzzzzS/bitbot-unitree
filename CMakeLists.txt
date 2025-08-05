@@ -34,6 +34,7 @@ find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(rosgraph_msgs REQUIRED)
 find_package(ament_index_cpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
 include_directories("/usr/include/eigen3")
 
 find_package(gz-sim8 REQUIRED)
@@ -80,12 +81,22 @@ target_link_libraries(RobotResetPlugin
   gz-plugin2::gz-plugin2
 )
 
+add_library(PosePublisherPlugin SHARED src/plugin/pose_publisher.cc)
+ament_target_dependencies(PosePublisherPlugin
+  rclcpp
+  geometry_msgs
+)
+target_link_libraries(PosePublisherPlugin
+  gz-sim8::gz-sim8
+  gz-plugin2::gz-plugin2
+)
+
 install(TARGETS
   bitbot_gz main_app
   DESTINATION lib/${PROJECT_NAME}
 )
 install(TARGETS
-  RobotResetPlugin
+  RobotResetPlugin PosePublisherPlugin
   DESTINATION share/${PROJECT_NAME}
 )
 install(
