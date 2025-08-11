@@ -1,0 +1,59 @@
+<sdf version="1.6">
+  <world name="empty">
+    <physics name="1ms" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact">
+    </plugin>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.1 0.1 0.1 1</ambient>
+            <diffuse>0.1 0.1 0.1 1</diffuse>
+            <specular>0.9 0.9 0.9 1</specular>
+          </material>
+        </visual>
+      </link>
+    <link name="link0"><pose>3.5 0.0 0.25 0.0 0.0 0.0</pose><collision name="collision0"><geometry><box><size>1.0 2.0 0.5</size></box></geometry></collision><visual name="visual0"><geometry><box><size>1.0 2.0 0.5</size></box></geometry><material><ambient>0.948684899636754 0.03634640097861076 0.014968699384635284 0.95</ambient><diffuse>0.948684899636754 0.03634640097861076 0.014968699384635284 0.95</diffuse><specular>0.948684899636754 0.03634640097861076 0.014968699384635284 0.95</specular></material></visual></link><link name="link1"><pose>5.0 0.0 0.25 0.0 0.0 0.0</pose><collision name="collision1"><geometry><box><size>1.0 2.0 0.5</size></box></geometry></collision><visual name="visual1"><geometry><box><size>1.0 2.0 0.5</size></box></geometry><material><ambient>0.18780130377926296 0.45863782769510264 0.3535608685256344 0.95</ambient><diffuse>0.18780130377926296 0.45863782769510264 0.3535608685256344 0.95</diffuse><specular>0.18780130377926296 0.45863782769510264 0.3535608685256344 0.95</specular></material></visual></link><link name="link2"><pose>1.77 0.0 0.25 0.0 -0.2 0.0</pose><collision name="collision2"><geometry><box><size>2.51 2.0 0.005</size></box></geometry></collision><visual name="visual2"><geometry><box><size>2.51 2.0 0.005</size></box></geometry><material><ambient>0.4543379289092697 0.07494949081587404 0.47071258027485624 0.95</ambient><diffuse>0.4543379289092697 0.07494949081587404 0.47071258027485624 0.95</diffuse><specular>0.4543379289092697 0.07494949081587404 0.47071258027485624 0.95</specular></material></visual></link><link name="link3"><pose>-2.3999994926910158 0.0006370611665947314 0.075 0.0 0.0 3.14</pose><collision name="collision3"><geometry><box><size>0.4 2.0 0.15</size></box></geometry></collision><visual name="visual3"><geometry><box><size>0.4 2.0 0.15</size></box></geometry><material><ambient>0.18421370586803876 0.6803353015291874 0.13545099260277382 0.95</ambient><diffuse>0.18421370586803876 0.6803353015291874 0.13545099260277382 0.95</diffuse><specular>0.18421370586803876 0.6803353015291874 0.13545099260277382 0.95</specular></material></visual></link><link name="link4"><pose>-2.7999989853820315 0.0012741223331894627 0.22499999999999998 0.0 0.0 3.14</pose><collision name="collision4"><geometry><box><size>0.4 2.0 0.15</size></box></geometry></collision><visual name="visual4"><geometry><box><size>0.4 2.0 0.15</size></box></geometry><material><ambient>0.7419001114894541 0.14022235995251475 0.11787752855803113 0.95</ambient><diffuse>0.7419001114894541 0.14022235995251475 0.11787752855803113 0.95</diffuse><specular>0.7419001114894541 0.14022235995251475 0.11787752855803113 0.95</specular></material></visual></link><link name="link5"><pose>-3.1999984780730477 0.0019111834997841942 0.375 0.0 0.0 3.14</pose><collision name="collision5"><geometry><box><size>0.4 2.0 0.15</size></box></geometry></collision><visual name="visual5"><geometry><box><size>0.4 2.0 0.15</size></box></geometry><material><ambient>0.9078444814966434 0.03680115897041654 0.05535435953294003 0.95</ambient><diffuse>0.9078444814966434 0.03680115897041654 0.05535435953294003 0.95</diffuse><specular>0.9078444814966434 0.03680115897041654 0.05535435953294003 0.95</specular></material></visual></link><link name="link6"><pose>-3.599997970764063 0.0025482446663789254 0.525 0.0 0.0 3.14</pose><collision name="collision6"><geometry><box><size>0.4 2.0 0.15</size></box></geometry></collision><visual name="visual6"><geometry><box><size>0.4 2.0 0.15</size></box></geometry><material><ambient>0.5605172996780831 0.022855244429400064 0.4166274558925169 0.95</ambient><diffuse>0.5605172996780831 0.022855244429400064 0.4166274558925169 0.95</diffuse><specular>0.5605172996780831 0.022855244429400064 0.4166274558925169 0.95</specular></material></visual></link><link name="link7"><pose>-3.9999974634550792 0.0031853058329736565 0.675 0.0 0.0 3.14</pose><collision name="collision7"><geometry><box><size>0.4 2.0 0.15</size></box></geometry></collision><visual name="visual7"><geometry><box><size>0.4 2.0 0.15</size></box></geometry><material><ambient>0.16590181708323082 0.033976689308620245 0.8001214936081489 0.95</ambient><diffuse>0.16590181708323082 0.033976689308620245 0.8001214936081489 0.95</diffuse><specular>0.16590181708323082 0.033976689308620245 0.8001214936081489 0.95</specular></material></visual></link><link name="link8"><pose>-6.0 0.0 0.075 0.0 0.0 0.0</pose><collision name="collision8"><geometry><box><size>0.4 2.0 0.15</size></box></geometry></collision><visual name="visual8"><geometry><box><size>0.4 2.0 0.15</size></box></geometry><material><ambient>0.4225789749468837 0.004601343669048843 0.5728196813840675 0.95</ambient><diffuse>0.4225789749468837 0.004601343669048843 0.5728196813840675 0.95</diffuse><specular>0.4225789749468837 0.004601343669048843 0.5728196813840675 0.95</specular></material></visual></link><link name="link9"><pose>-5.6000000000000005 0.0 0.22499999999999998 0.0 0.0 0.0</pose><collision name="collision9"><geometry><box><size>0.4 2.0 0.15</size></box></geometry></collision><visual name="visual9"><geometry><box><size>0.4 2.0 0.15</size></box></geometry><material><ambient>0.21685371329457526 0.07626313636572474 0.7068831503397 0.95</ambient><diffuse>0.21685371329457526 0.07626313636572474 0.7068831503397 0.95</diffuse><specular>0.21685371329457526 0.07626313636572474 0.7068831503397 0.95</specular></material></visual></link><link name="link10"><pose>-5.2 0.0 0.375 0.0 0.0 0.0</pose><collision name="collision10"><geometry><box><size>0.4 2.0 0.15</size></box></geometry></collision><visual name="visual10"><geometry><box><size>0.4 2.0 0.15</size></box></geometry><material><ambient>0.4570378441187003 0.19119433147536044 0.35176782440593923 0.95</ambient><diffuse>0.4570378441187003 0.19119433147536044 0.35176782440593923 0.95</diffuse><specular>0.4570378441187003 0.19119433147536044 0.35176782440593923 0.95</specular></material></visual></link><link name="link11"><pose>-4.800000000000001 0.0 0.525 0.0 0.0 0.0</pose><collision name="collision11"><geometry><box><size>0.4 2.0 0.15</size></box></geometry></collision><visual name="visual11"><geometry><box><size>0.4 2.0 0.15</size></box></geometry><material><ambient>0.8594496288388368 0.02880500186944338 0.11174536929171983 0.95</ambient><diffuse>0.8594496288388368 0.02880500186944338 0.11174536929171983 0.95</diffuse><specular>0.8594496288388368 0.02880500186944338 0.11174536929171983 0.95</specular></material></visual></link><link name="link12"><pose>-4.4 0.0 0.675 0.0 0.0 0.0</pose><collision name="collision12"><geometry><box><size>0.4 2.0 0.15</size></box></geometry></collision><visual name="visual12"><geometry><box><size>0.4 2.0 0.15</size></box></geometry><material><ambient>0.4735256563718494 0.19202355651291275 0.33445078711523785 0.95</ambient><diffuse>0.4735256563718494 0.19202355651291275 0.33445078711523785 0.95</diffuse><specular>0.4735256563718494 0.19202355651291275 0.33445078711523785 0.95</specular></material></visual></link></model>
+
+  </world>
+</sdf>

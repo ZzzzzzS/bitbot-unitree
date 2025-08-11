@@ -34,7 +34,8 @@ def generate_launch_description():
         [
             FindPackageShare("bitbot_gz"),
             "world",
-            "empty.sdf",
+            # "empty.sdf",
+            "terrain.sdf",
         ]
     )
     gazebo_gui_config = PathJoinSubstitution(
