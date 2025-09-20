@@ -229,7 +229,8 @@ def Slope(tg: TerrainGenerator):
 
 
 def Stairs(tg: TerrainGenerator, init_pos=np.array([1.0, 2.0, 0.0])):
-    width = 0.5
+    height = 0.3
+    width = 1.0
     stair_nums = 5
 
     init_pos_up = init_pos + np.array([0.0, 0.0, 0.0])
@@ -239,7 +240,7 @@ def Stairs(tg: TerrainGenerator, init_pos=np.array([1.0, 2.0, 0.0])):
         init_pos=init_pos_up.tolist(),
         yaw=0.0,
         width=width,
-        height=0.15,
+        height=height,
         length=2.0,
         stair_nums=stair_nums,
     )
@@ -247,7 +248,7 @@ def Stairs(tg: TerrainGenerator, init_pos=np.array([1.0, 2.0, 0.0])):
         init_pos=init_pos_down.tolist(),
         yaw=3.14,
         width=width,
-        height=0.15,
+        height=height,
         length=2.0,
         stair_nums=stair_nums,
     )

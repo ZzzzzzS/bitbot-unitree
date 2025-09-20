@@ -91,8 +91,8 @@ class PosePublisher : public gz::sim::System,
       }
     }
 
-    // 100 hz
-    if (update_count_++ % 10 != 0) {
+    // 200 hz
+    if (update_count_++ % 5 != 0) {
       return;
     }
 
