@@ -1,5 +1,6 @@
 #include <tf2_ros/transform_broadcaster.h>
 
+#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <gz/sim/Entity.hh>
 #include <gz/sim/EntityComponentManager.hh>
@@ -10,6 +11,7 @@
 #include <gz/sim/components/Name.hh>
 #include <gz/sim/components/ParentEntity.hh>
 #include <gz/sim/components/Pose.hh>
+#include <nav_msgs/msg/odometry.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 class PosePublisher : public gz::sim::System,
@@ -34,6 +36,8 @@ class PosePublisher : public gz::sim::System,
     ros_node_ = rclcpp::Node::make_shared("gz_pose_publisher");
     tf_broadcaster_ =
         std::make_shared<tf2_ros::TransformBroadcaster>(ros_node_);
+    pose_pub_ = ros_node_->create_publisher<nav_msgs::msg::Odometry>(
+        "robot_pose_gt", 10);
 
     gzmsg << "PosePublisher plugin initialized for model: " << model_name_
           << std::endl;
@@ -125,6 +129,20 @@ class PosePublisher : public gz::sim::System,
     transform_msg.transform.rotation.w = link_world_pose.Rot().W();
 
     this->tf_broadcaster_->sendTransform(transform_msg);
+
+    nav_msgs::msg::Odometry nav_msg;
+    nav_msg.header.stamp = transform_msg.header.stamp;
+    nav_msg.header.frame_id = "world";
+    nav_msg.child_frame_id = link_name_;
+    nav_msg.pose.pose.position.x = link_world_pose.Pos().X();
+    nav_msg.pose.pose.position.y = link_world_pose.Pos().Y();
+    nav_msg.pose.pose.position.z = link_world_pose.Pos().Z();
+    nav_msg.pose.pose.orientation.x = link_world_pose.Rot().X();
+    nav_msg.pose.pose.orientation.y = link_world_pose.Rot().Y();
+    nav_msg.pose.pose.orientation.z = link_world_pose.Rot().Z();
+    nav_msg.pose.pose.orientation.w = link_world_pose.Rot().W();
+    nav_msg.pose.covariance.fill(0.001);
+    this->pose_pub_->publish(nav_msg);
   }
 
  private:
@@ -136,6 +154,7 @@ class PosePublisher : public gz::sim::System,
 
   rclcpp::Node::SharedPtr ros_node_;
   std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
+  rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr pose_pub_;
   size_t update_count_{0};
 };
 

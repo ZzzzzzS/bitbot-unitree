@@ -63,6 +63,30 @@
     <limit effort="100.0" velocity="100.0" lower="-3.14" upper="3.14"/>
   </joint>
 
+  <link name="lidar_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.03" />
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.03" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2" />
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001" />
+    </inertial>
+  </link>
+
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_thorax" />
+    <child link="lidar_link" />
+    <origin xyz="0.1 0 0.5" rpy="0 0 0" />
+  </joint>
+
   <link
     name="Lleg_hip_p">
     <inertial>
@@ -330,7 +354,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot_visual.stl" />
+          filename="package://bitbot_gz/urdf/hhfc/meshes/flat_foot.stl" />
       </geometry>
       <material
         name="">
@@ -341,7 +365,7 @@
     <collision>
       <geometry>
         <mesh
-          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot_visual.stl" />
+          filename="package://bitbot_gz/urdf/hhfc/meshes/flat_foot_convex.stl" />
         <!-- filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot.stl" /> -->
       </geometry>
     </collision>
@@ -631,7 +655,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot_visual.stl" />
+          filename="package://bitbot_gz/urdf/hhfc/meshes/flat_foot.stl" />
       </geometry>
       <material
         name="">
@@ -642,7 +666,7 @@
     <collision>
       <geometry>
         <mesh
-          filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot_visual.stl" />
+          filename="package://bitbot_gz/urdf/hhfc/meshes/flat_foot_convex.stl" />
         <!-- filename="package://bitbot_gz/urdf/hhfc/meshes/whole_foot.stl" /> -->
       </geometry>
     </collision>
@@ -992,7 +1016,7 @@
         <image>
           <width>640</width>
           <height>480</height>
-          <format>RGB_INT8</format>
+          <format>R8G8B8</format> <!-- R8G8B8 保证能直接输出点云， RGB_INT8 没有点云只有深度-->
           <anti_aliasing>4</anti_aliasing>
         </image>
         <clip>
@@ -1019,6 +1043,37 @@
     </sensor>
   </gazebo>
 
+<gazebo reference="lidar_link">
+  <sensor name='gpu_lidar' type='gpu_lidar'>"
+    <!-- <pose relative_to='lidar_frame'>0 0 0 0 0 0</pose> -->
+      <topic>/lidar/points</topic>
+    <update_rate>10</update_rate>
+    <ray>
+        <scan>
+            <horizontal>
+                <samples>640</samples>
+                <resolution>1</resolution>
+                <min_angle>-1.396263</min_angle>
+                <max_angle>1.396263</max_angle>
+            </horizontal>
+            <vertical>
+                <samples>16</samples>
+                <resolution>1</resolution>
+                <min_angle>-0.5</min_angle>
+                <max_angle>0.5</max_angle>
+              </vertical>
+        </scan>
+        <range>
+            <min>0.08</min>
+            <max>10.0</max>
+            <resolution>0.01</resolution>
+        </range>
+    </ray>
+    <always_on>1</always_on>
+    <visualize>true</visualize>
+</sensor>
+  </gazebo>
+  
   <!-- Customized plugin -->
   <gazebo>
     <plugin filename="RobotResetPlugin" name="gz::sim::systems::RobotResetPlugin">
@@ -1041,3 +1096,4 @@
     </plugin>
   </gazebo>
 </robot>
+

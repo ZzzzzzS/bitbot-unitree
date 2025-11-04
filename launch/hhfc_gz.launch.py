@@ -68,6 +68,7 @@ def generate_launch_description():
             "/color_camera/image_raw@sensor_msgs/msg/Image@gz.msgs.Image",
             "/depth_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
             "/color_camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+            "/lidar/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
         ],
         output="screen",
     )

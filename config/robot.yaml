@@ -316,19 +316,20 @@ RobotConfig:
   policy_perceptive:
     p_gains: *default_p_gains
     d_gains: *default_d_gains
-    decimation: 20
+    decimation: 10
     perception_enabled: true
 
     inference:
       policy_type: "Perceptive"
       # policy_type: "Humanoid"
       use_absolute_clock: false
-      control_period: 0.02
+      control_period: 0.01
       obs_buffer_size: 10
       # obs_buffer_size: 15
       # TODO
       # model_path: "/home/dknt/Project/bitbot_gz_ws/src/bitbot_gz/checkpoint/terrain_alpha.onnx"
       # model_path: "/home/dknt/Project/bitbot_gz_ws/src/bitbot_gz/checkpoint/policy_msl.onnx"
+      # model_path: "/home/dknt/Project/bitbot_gz_ws/src/bitbot_gz/checkpoint/policy_pe.onnx"
       model_path: "/home/dknt/Project/bitbot_gz_ws/src/bitbot_gz/checkpoint/policy_pe.onnx"
 
       log_data: false # true

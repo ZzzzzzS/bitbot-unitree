@@ -20,7 +20,7 @@ BitbotAddDependency(
 include(FetchContent)
 FetchContent_Declare(
   ovinf
-  GIT_REPOSITORY git@github.com:Dknt0/ovinf.git 
+  GIT_REPOSITORY https://github.com/Dknt0/ovinf.git 
   GIT_TAG main
 )
 FetchContent_MakeAvailable(ovinf)
@@ -37,6 +37,7 @@ find_package(ament_index_cpp REQUIRED)
 find_package(grid_map_msgs REQUIRED)
 find_package(grid_map_ros REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 include_directories("/usr/include/eigen3")
 
@@ -96,6 +97,7 @@ ament_target_dependencies(PosePublisherPlugin
   rclcpp
   geometry_msgs
   tf2_ros
+  nav_msgs
 )
 target_link_libraries(PosePublisherPlugin
   gz-sim8::gz-sim8
