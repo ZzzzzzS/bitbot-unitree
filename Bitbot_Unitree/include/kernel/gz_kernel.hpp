@@ -32,7 +32,7 @@ namespace bitbot {
       int bus_freq;
       ConfigParser::ParseAttribute2i(bus_freq, Unitree_node.attribute("BusFrequency"));
       this->run_period = 1e6 / bus_freq;
-      this->busmanager_.Init(Unitree_node);
+      this->busmanager_.Init(Unitree_node, &this->kernel_interface_, this->events_name_id_map_);
 
       this->KernelRegisterEvent("power_on", static_cast<EventId>(UnitreeKernelEvent::POWER_ON), [this](EventValue, UserData&)
         {

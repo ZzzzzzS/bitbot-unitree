@@ -17,8 +17,8 @@ namespace bitbot {
     inline void SetTargetVelocity(float vel) { target_velocity_ = vel; }
     inline void SetTargetTorque(float torque) { target_torque_ = torque; }
 
-    void PowerOn() { power_on_ = true; }
-    void PowerOff() { power_on_ = false; }
+    void PowerOn();
+    void PowerOff();
 
   private:
     virtual void Input(const IOType& IO) final;

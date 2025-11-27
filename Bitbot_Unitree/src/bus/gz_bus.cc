@@ -51,7 +51,7 @@ namespace bitbot {
 	}
 
 
-	void GzBus::Init(pugi::xml_node& bus_node)
+	void GzBus::Init(pugi::xml_node& bus_node, KernelInterface* interface, const std::unordered_map<std::string, EventId>& map)
 	{
 		std::string mode_pr_str;
 		ConfigParser::ParseAttribute2s(mode_pr_str, bus_node.attribute("mode_pr"));
@@ -100,6 +100,49 @@ namespace bitbot {
 			{
 				this->imu_devices_.push_back(dev);
 			}
+			else if (dev->Type() == (uint32_t)GzDeviceType::GZ_MOTHERBOARD)
+			{
+				if (this->motherboard_device_ == nullptr)
+				{
+					this->motherboard_device_ = dev;
+				}
+				else
+				{
+					this->logger_->error("GzBus Init error: duplicate motherboard device in configuration.");
+					throw std::runtime_error("GzBus Init error: duplicate motherboard device in configuration.");
+				}
+			}
+			else if (dev->Type() == (uint32_t)GzDeviceType::GZ_BATTERY)
+			{
+				if (this->battery_device_ == nullptr)
+				{
+					this->battery_device_ = dev;
+				}
+				else
+				{
+					this->logger_->error("GzBus Init error: duplicate battery device in configuration.");
+					throw std::runtime_error("GzBus Init error: duplicate battery device in configuration.");
+				}
+			}
+			else if (dev->Type() == (uint32_t)GzDeviceType::GZ_GAMEPAD)
+			{
+				if (this->gamepad_device_ == nullptr)
+				{
+					UnitreeGamepad* ptr = dynamic_cast<UnitreeGamepad*>(dev);
+					ptr->init(interface, map);
+					this->gamepad_device_ = static_cast<GzDevice*>(ptr);
+				}
+				else
+				{
+					this->logger_->error("GzBus Init error: duplicate gamepad device in configuration.");
+					throw std::runtime_error("GzBus Init error: duplicate gamepad device in configuration.");
+				}
+			}
+			else
+			{
+				this->logger_->error("unknown device type with typeid={}, ignore now.", dev->Type());
+			}
+
 		}
 
 		if (this->joint_devices_.size() < 29)
@@ -124,6 +167,9 @@ namespace bitbot {
 	void GzBus::RegisterDevices() {
 		static DeviceRegistrar<GzDevice, GzJoint> gz_joint((uint32_t)GzDeviceType::GZ_JOINT, "GzJoint");
 		static DeviceRegistrar<GzDevice, GzImu> gz_imu((uint32_t)GzDeviceType::GZ_IMU, "GzImu");
+		static DeviceRegistrar<GzDevice, UnitreeMotherboard> UnitreeMotherboard((uint32_t)GzDeviceType::GZ_MOTHERBOARD, "GzMotherboard");
+		static DeviceRegistrar<GzDevice, UnitreeBattery> UnitreeBattery((uint32_t)GzDeviceType::GZ_BATTERY, "GzBattery");
+		static DeviceRegistrar<GzDevice, UnitreeGamepad> UnitreeGamepad((uint32_t)GzDeviceType::GZ_GAMEPAD, "GzGamepad");
 	}
 
 	void GzBus::WriteBus() {
@@ -154,12 +200,16 @@ namespace bitbot {
 		this->imu_state_lock_.unlock();
 
 		this->main_board_state_lock_.lock();
-		// this->motherboard_device_.Input(this->main_board_state_msg_);
+		this->motherboard_device_->Input(this->main_board_state_msg_);
 		this->main_board_state_lock_.unlock();
 
 		this->bms_state_lock_.lock();
-		// this->battery_device_.Input(this->bms_state_msg_);
+		this->battery_device_->Input(this->bms_state_msg_);
 		this->bms_state_lock_.unlock();
+
+		this->gamepad_lock_.lock();
+		this->gamepad_device_->Input(this->gamepad_msgs_);
+		this->gamepad_lock_.unlock();
 	}
 
 	void GzBus::LowStateCallback(const void* msg_)
@@ -175,10 +225,13 @@ namespace bitbot {
 		this->imu_states_[0] = msg->imu_state();
 		this->imu_state_lock_.unlock();
 
+		this->gamepad_lock_.lock();
+		memcpy(this->gamepad_msgs_.buff, msg->wireless_remote().data(), 40);
+		this->gamepad_lock_.unlock();
+
 		msg->mode_pr() != this->mode_pr_ ? this->logger_->warn("LowStateCallback: mode_pr mismatch! received: {}, expected: {}", msg->mode_pr(), this->mode_pr_) : void();
 		msg->mode_machine() != this->mode_machine_ ? this->logger_->warn("LowStateCallback: mode_machine mismatch! received: {}, expected: {}", msg->mode_machine(), this->mode_machine_) : void();
 
-		//TODO: add remote and other states
 		this->received.store(true);
 	}
 

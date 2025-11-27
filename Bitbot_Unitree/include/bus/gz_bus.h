@@ -4,6 +4,9 @@
 #include "device/gz_device.hpp"
 #include "device/gz_imu.h"
 #include "device/gz_joint.h"
+#include "device/gz_robot.h"
+#include "device/gz_battery.h"
+#include "device/gz_gamepad.h"
 #include "bitbot_kernel/bus/bus_manager.hpp"
 
 #include "unitree/robot/channel/channel_publisher.hpp"
@@ -15,6 +18,7 @@
 #include "pugixml.hpp"
 
 namespace bitbot {
+  class KernelInterface;
   class GzBus : public BusManagerTpl<GzBus, GzDevice> {
   public:
     GzBus();
@@ -23,7 +27,7 @@ namespace bitbot {
     void WriteBus();
     void ReadBus();
     void RegisterDevices();
-    void Init(pugi::xml_node& bitbot_node);
+    void Init(pugi::xml_node& bitbot_node, KernelInterface* interface, const std::unordered_map<std::string, EventId>& map);
     void PowerOn();
     void PowerOff();
     bool isSystemReady() { return received.load(); }
@@ -62,6 +66,8 @@ namespace bitbot {
     unitree_hg::msg::dds_::MainBoardState_ main_board_state_msg_;
     std::mutex bms_state_lock_;
     unitree_hg::msg::dds_::BmsState_ bms_state_msg_;
+    std::mutex gamepad_lock_;
+    REMOTE_DATA_RX gamepad_msgs_;
 
     // ros bus node spin thread
     std::atomic<bool> received = false;
@@ -69,9 +75,9 @@ namespace bitbot {
     //device list
     std::vector<GzDevice*> joint_devices_;
     std::vector<GzDevice*> imu_devices_;
-    // GzDevice motherboard_device_;
-    // GzDevice battery_device_;
-    //TODO: add motherboard and battery device
+    GzDevice* motherboard_device_ = nullptr;
+    GzDevice* battery_device_ = nullptr;
+    GzDevice* gamepad_device_ = nullptr;
 
   private: //LowCmd config
     uint8_t mode_pr_;

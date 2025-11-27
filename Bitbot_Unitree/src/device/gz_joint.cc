@@ -37,6 +37,22 @@ namespace bitbot {
     this->temp[1] = motor_state.temperature()[1];
   }
 
+  void GzJoint::PowerOn()
+  {
+    this->target_position_ = this->actual_position_;
+    this->target_velocity_ = 0;
+    this->target_torque_ = 0;
+    this->power_on_ = true;
+  }
+
+  void GzJoint::PowerOff()
+  {
+    power_on_ = false;
+    this->target_position_ = this->actual_position_;
+    this->target_velocity_ = 0;
+    this->target_torque_ = 0;
+  }
+
   IOType GzJoint::Output() {
     unitree_hg::msg::dds_::MotorCmd_ motor_cmd;
     if (power_on_ && enable_) { //必须上电且使能才能控制

@@ -36,5 +36,8 @@
         
         <device id="30" type="GzImu" name="imu"/>
         <device id="31" type="GzImu" name="alter_imu"/>
+        <device id="32" type="GzBattery" name="battery"/>
+        <device id="33" type="GzMotherboard" name="mothorboard"/>
+        <device id="34" type="GzGamepad" name="unitree_gamepad" dead_zone="0.01" smooth="0.03"/>
     </bus>
 </bitbot>

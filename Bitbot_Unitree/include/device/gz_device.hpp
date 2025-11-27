@@ -11,6 +11,7 @@
 #include "unitree/idl/hg/BmsState_.hpp"
 #include "unitree/idl/hg/MotorCmd_.hpp"
 #include "unitree/idl/hg/LowCmd_.hpp"
+#include "device/gz_gamepadheader.h"
 
 
 
@@ -20,7 +21,7 @@ namespace bitbot {
     GZ_DEVICE = 1000,
     GZ_JOINT,
     GZ_IMU,
-    GZ_JOYSTICK,
+    GZ_GAMEPAD,
     GZ_BATTERY,
     GZ_MOTHERBOARD
   };
@@ -30,7 +31,8 @@ namespace bitbot {
     unitree_hg::msg::dds_::IMUState_,
     unitree_hg::msg::dds_::MainBoardState_,
     unitree_hg::msg::dds_::BmsState_,
-    unitree_hg::msg::dds_::MotorCmd_>;
+    unitree_hg::msg::dds_::MotorCmd_,
+    REMOTE_DATA_RX>;
 
   class GzDevice : public Device {
   public:
