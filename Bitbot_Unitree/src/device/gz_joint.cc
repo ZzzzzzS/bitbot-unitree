@@ -40,7 +40,7 @@ namespace bitbot {
   IOType GzJoint::Output() {
     unitree_hg::msg::dds_::MotorCmd_ motor_cmd;
     if (power_on_ && enable_) { //必须上电且使能才能控制
-      motor_cmd.mode() = mode_;
+      motor_cmd.mode() = 1;
       motor_cmd.q() = target_position_;
       motor_cmd.dq() = target_velocity_;
       motor_cmd.tau() = target_torque_;

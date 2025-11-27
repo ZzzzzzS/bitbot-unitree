@@ -53,14 +53,6 @@ namespace bitbot {
 
 	void GzBus::Init(pugi::xml_node& bus_node)
 	{
-		std::string NetWorkCardName;
-		ConfigParser::ParseAttribute2s(NetWorkCardName, bus_node.attribute("NetWorkCardName"));
-		this->logger_->info("DDSNetWorkCardName: {}", NetWorkCardName);
-		unitree::robot::ChannelFactory::Instance()->Init(0, NetWorkCardName);
-		//init publishers and subscribers
-		this->InitPublishersAndSubscribers();
-
-
 		std::string mode_pr_str;
 		ConfigParser::ParseAttribute2s(mode_pr_str, bus_node.attribute("mode_pr"));
 		if (mode_pr_str == "PR")
@@ -81,11 +73,15 @@ namespace bitbot {
 		ConfigParser::ParseAttribute2s(mode_machine_str, bus_node.attribute("mode_machine"));
 		if (mode_machine_str == "23DoF")
 		{
-			this->mode_machine_ = 1;
+			this->mode_machine_ = 4;
 		}
 		else if (mode_machine_str == "29DoF")
 		{
-			this->mode_machine_ = 2;
+			this->mode_machine_ = 5;
+		}
+		else if (mode_machine_str == "27DoF")
+		{
+			this->mode_machine_ = 6;
 		}
 		else
 		{
@@ -116,6 +112,13 @@ namespace bitbot {
 			this->logger_->error("GzBus Init error: imu devices size is not 2, actual size is {}", this->imu_devices_.size());
 			throw std::runtime_error("GzBus Init error: imu devices size is not 2");
 		}
+
+		std::string NetWorkCardName;
+		ConfigParser::ParseAttribute2s(NetWorkCardName, bus_node.attribute("NetWorkCardName"));
+		this->logger_->info("DDSNetWorkCardName: {}", NetWorkCardName);
+		unitree::robot::ChannelFactory::Instance()->Init(0, NetWorkCardName);
+		//init publishers and subscribers
+		this->InitPublishersAndSubscribers();
 	}
 
 	void GzBus::RegisterDevices() {
