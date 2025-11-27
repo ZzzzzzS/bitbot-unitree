@@ -12,10 +12,15 @@ namespace bitbot {
         UnitreeGamepad(pugi::xml_node const& device_node);
         ~UnitreeGamepad();
 
-        void init(KernelInterface* interface, const std::unordered_map<std::string, EventId>& map)
+        void init(KernelInterface* interface, const std::unordered_map<std::string, std::string>& map)
+        {
+            this->KeyEventMap = map;
+            this->kernel_interface = interface;
+        }
+
+        void updateEventIDMap(const std::unordered_map<std::string, EventId>& map)
         {
             this->EventMap = map;
-            this->kernel_interface = interface;
         }
 
     private:
@@ -29,6 +34,7 @@ namespace bitbot {
     private:
         Gamepad* gamepad_;
         std::unordered_map<std::string, EventId> EventMap;
+        std::unordered_map<std::string, std::string> KeyEventMap;
         KernelInterface* kernel_interface;
     };
 

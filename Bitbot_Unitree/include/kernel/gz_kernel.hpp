@@ -30,10 +30,7 @@ namespace bitbot {
                 config_file) {
             pugi::xml_node UnitreeKernel_node = this->parser_->GetBitbotNode();
             pugi::xml_node Unitree_node = UnitreeKernel_node.child("Unitree");
-            pugi::xml_node backend_node = UnitreeKernel_node.child("backend");
-            std::string backend_file;
-            ConfigParser::ParseAttribute2s(backend_file, backend_node.attribute("settings_file"));
-            auto map = JsonParser::ParseKeyEvent(backend_file);
+            auto map = JsonParser::ParseKeyEvent(this->backend_settings_file_, this->logger_);
 
             int bus_freq;
             ConfigParser::ParseAttribute2i(bus_freq, Unitree_node.attribute("BusFrequency"));
