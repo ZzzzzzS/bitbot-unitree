@@ -55,9 +55,9 @@ constexpr size_t ALTER_IMU_ID_MAP = 30;
 #else
 constexpr std::array<size_t, JOINT_NUMBER> JOINT_ID_MAP = {
     0, 6, 12, 1, 7, 13, 2, 8, 14, 3, 9, 15, 22, 4, 10, 16, 23, 5, 11, 17, 24, 18, 25, 19, 26, 20, 27, 21, 28
-};
-constexpr size_t IMU_ID_MAP = 30;
-constexpr size_t ALTER_IMU_ID_MAP = 31;
+}; // Unitree joint mapping is the same as simulation
+constexpr size_t IMU_ID_MAP = 30; // Unitree IMU ID
+constexpr size_t ALTER_IMU_ID_MAP = 31; //unitree alter IMU ID
 #endif
 
 /********** IMU Data Pair******************/

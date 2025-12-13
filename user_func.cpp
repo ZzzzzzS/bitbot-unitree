@@ -20,6 +20,7 @@
 #include <fstream>
 #include "types.hpp"
 
+ // 辅助函数：对容器中的每个元素应用函数
 template <typename Container, typename Func>
 void Apply(Container& container, Func func)
 {
@@ -42,6 +43,7 @@ void ConfigFunc(const KernelBus& bus, UserData& d)
         cfg_workers = cfg_root["Workers"];
     }
 
+    //获取设备指针
     d.ImuPtr = bus.GetDevice<DeviceImu>(IMU_ID_MAP).value();
     d.ImuAlterPtr = bus.GetDevice<DeviceImu>(ALTER_IMU_ID_MAP).value();
     Apply(d.JointsPtr, [&bus](DeviceJoint** joint, size_t i)
@@ -125,6 +127,7 @@ std::optional<bitbot::StateId> EventPolicyRunFunc(bitbot::EventValue value, User
 std::optional<bitbot::StateId> EventSystemTestFunc(bitbot::EventValue value,
     UserData& user_data)
 {
+    //进入bitbot测试状态
     if (value == static_cast<bitbot::EventValue>(bitbot::KeyboardEvent::Up))
     {
         return static_cast<bitbot::StateId>(States::StateSystemTest);
@@ -136,6 +139,7 @@ std::optional<bitbot::StateId> EventDanceFunc(bitbot::EventValue value, UserData
 {
     if (value == static_cast<bitbot::EventValue>(bitbot::KeyboardEvent::Up))
     {
+        //触发跳舞信号
         std::cout << "dance\n";
         user_data.NetInferWorker->start();
     }
@@ -146,27 +150,30 @@ std::optional<bitbot::StateId> EventDanceFunc(bitbot::EventValue value, UserData
 void StateWaitingFunc(const bitbot::KernelInterface& kernel,
     bitbot::ExtraData& extra_data, UserData& d)
 {
+    //空闲等待状态，重置目标位置防止突变
     d.MotorWorker->SetCurrentPositionAsTargetPosition();
+    //调度器进行一次调度
     d.TaskScheduler->SpinOnce();
 }
 
 void StateSystemTestFunc(const bitbot::KernelInterface& kernel,
     bitbot::ExtraData& extra_data, UserData& user_data)
 {
+    //bitbot测试状态为空，用户可自行添加
 }
 
 
 void StatePolicyRunFunc(const bitbot::KernelInterface& kernel,
     bitbot::ExtraData& extra_data, UserData& d)
 {
-    d.TaskScheduler->SpinOnce();
+    d.TaskScheduler->SpinOnce(); //运行状态(控制主状态)，进行一次调度
 };
 
 
 void StateInitPoseFunc(const bitbot::KernelInterface& kernel,
     bitbot::ExtraData& extra_data, UserData& d)
 {
-    d.TaskScheduler->SpinOnce();
+    d.TaskScheduler->SpinOnce(); //复位状态，进行一次调度
 }
 
 
