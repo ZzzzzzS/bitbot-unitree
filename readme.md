@@ -1,6 +1,6 @@
 @mainpage
 
-# BitbotEncos
+# BitbotUnitree
 
 Bitbot Unitree是Bitbot机器人控制框架的一个实例。该实例提供[Unitree SDK](https://github.com/unitreerobotics/unitree_sdk2)的bitbot封装，使用户可以快速在[unitree g1](https://www.unitree.com/g1/)机器人实物上部署自己的控制算法（仅unitree开发版机器人支持）。
 
