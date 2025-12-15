@@ -76,17 +76,20 @@
       "Network": {
         //"ModelPath": "../../CheckPoints/policy_102.onnx",
         "ModelPath": "../../CheckPoints/policy_gangnam.onnx",
+        //"ModelPath": "../../CheckPoints/policy_kuailechongbai.onnx",
         "InputNodeNames": [
           "obs"
         ],
         "OutputNodeNames": [
           "actions"
         ],
-        "Cycle_time": 0.01667
+        "Cycle_time": 0.01667 // dance 102:0.01667, gangnam:0.01667, kuailechongbai:0.02
+        //"Cycle_time": 0.02
       },
       "Preprocess": {
         //"trajectory_path": "../../CheckPoints/G1_Take_102.bvh_60hz.csv",
         "trajectory_path": "../../CheckPoints/G1_gangnam_style_V01.bvh_60hz.csv",
+        //"trajectory_path": "../../CheckPoints/jiaqi_KuaileChongbai2.csv",
         "include_velocity": false
       },
       "Postprocess": {
