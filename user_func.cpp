@@ -75,11 +75,23 @@ void ConfigFunc(const KernelBus& bus, UserData& d)
         });
 
     //创建推理任务列表，并添加worker，设置推理任务频率
-    d.NetInferWorker = d.TaskScheduler->template CreateWorker<BeyondMimicUnitreeInferWorkerType>(cfg_workers["NN"], cfg_workers["MotorControl"], JOINT_ID_MAP);
-    d.TaskScheduler->CreateTaskList("InferTask", cfg_root["Scheduler"]["InferTask"]["PolicyFrequency"]);
-    d.TaskScheduler->AddWorkers("InferTask",
+    d.DanceNetInferWorker = d.TaskScheduler->template CreateWorker<BeyondMimicUnitreeInferWorkerType>(cfg_workers["DanceNet1"], cfg_workers["DanceNet1"], JOINT_ID_MAP);
+    d.TaskScheduler->CreateTaskList("DanceInferTask", cfg_root["Scheduler"]["InferTask"]["PolicyFrequency"]);
+    d.TaskScheduler->AddWorkers("DanceInferTask",
         {
-            d.NetInferWorker,
+            d.DanceNetInferWorker,
+            d.ActionManagementWorker//,
+            //d.Logger
+        });
+
+    //创建走路的推理任务列表，并添加worker，设置推理任务频率
+    d.WalkNetInferWorker = d.TaskScheduler->template CreateWorker<UnitreeRlLabVelocityInferWorkerType>(cfg_workers["WalkNet1"], cfg_workers["MotorControl"]);
+    d.WalkCmdWorker = d.TaskScheduler->template CreateWorker<CmdWorkerType>(cfg_workers["WalkCmd"]);
+    d.TaskScheduler->CreateTaskList("InferWalkTask", cfg_root["Scheduler"]["InferTask"]["PolicyFrequency"]);
+    d.TaskScheduler->AddWorkers("InferWalkTask",
+        {
+            d.WalkCmdWorker,
+            d.WalkNetInferWorker,
             d.ActionManagementWorker,
             d.Logger
         });
@@ -95,55 +107,8 @@ void ConfigFunc(const KernelBus& bus, UserData& d)
 
 void FinishFunc(UserData& d)
 {
-}
-
-
-std::optional<bitbot::StateId> EventInitPoseFunc(bitbot::EventValue value, UserData& d)
-{
-    if (value == static_cast<bitbot::EventValue>(bitbot::KeyboardEvent::Up))
-    {
-        d.MotorResetWorker->StartReset(); //开始复位
-        d.TaskScheduler->EnableTaskList("ResetTask"); //在复位任务列表中启用复位任务
-        return static_cast<bitbot::StateId>(States::StateInitPose);
-    }
-    return std::optional<bitbot::StateId>();
-}
-
-
-std::optional<bitbot::StateId> EventPolicyRunFunc(bitbot::EventValue value, UserData& d)
-{
-    if (value == static_cast<bitbot::EventValue>(bitbot::KeyboardEvent::Up))
-    {
-        std::cout << "policy run\n";
-        d.MotorResetWorker->StopReset(); //停止复位
-        d.TaskScheduler->DisableTaskList("ResetTask"); //在复位任务列表中禁用复位任务
-        d.ActionManagementWorker->template SwitchTo<Net1OutPair>();
-        d.TaskScheduler->EnableTaskList("InferTask"); //在推理任务列表中启用推理任务
-        return static_cast<bitbot::StateId>(States::StatePolicyRun);
-    }
-    return std::optional<bitbot::StateId>();
-}
-
-std::optional<bitbot::StateId> EventSystemTestFunc(bitbot::EventValue value,
-    UserData& user_data)
-{
-    //进入bitbot测试状态
-    if (value == static_cast<bitbot::EventValue>(bitbot::KeyboardEvent::Up))
-    {
-        return static_cast<bitbot::StateId>(States::StateSystemTest);
-    }
-    return std::optional<bitbot::StateId>();
-}
-
-std::optional<bitbot::StateId> EventDanceFunc(bitbot::EventValue value, UserData& user_data)
-{
-    if (value == static_cast<bitbot::EventValue>(bitbot::KeyboardEvent::Up))
-    {
-        //触发跳舞信号
-        std::cout << "dance\n";
-        user_data.NetInferWorker->start();
-    }
-    return std::optional<bitbot::StateId>();
+    std::cout << "Finishing user functions..." << std::endl;
+    std::cout << "Goodbye!" << std::endl;
 }
 
 
@@ -169,6 +134,11 @@ void StatePolicyRunFunc(const bitbot::KernelInterface& kernel,
     d.TaskScheduler->SpinOnce(); //运行状态(控制主状态)，进行一次调度
 };
 
+void StatePolicyDanceFunc(const bitbot::KernelInterface& kernel,
+    bitbot::ExtraData& extra_data, UserData& d)
+{
+    d.TaskScheduler->SpinOnce(); //运行状态(跳舞主状态)，进行一次调度
+}
 
 void StateInitPoseFunc(const bitbot::KernelInterface& kernel,
     bitbot::ExtraData& extra_data, UserData& d)

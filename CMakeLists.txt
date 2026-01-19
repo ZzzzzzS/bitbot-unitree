@@ -46,6 +46,8 @@ add_executable(main_app
   types.hpp
   user_func.h
   user_func.cpp
+  user_command.h
+  user_command.cpp
 )
 
 if(BUILD_SIMULATION)

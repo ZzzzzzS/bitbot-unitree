@@ -49,12 +49,96 @@
       "kb_key": "GAMEPAD_BUTTON_A"
     },
     {
-      "event": "dance",
+      "event": "policy_dance",
+      "kb_key": "D"
+    },
+    {
+      "event": "policy_dance",
+      "kb_key": "GAMEPAD_BUTTON_MENU"
+    },
+    {
+      "event": "start_dance",
+      "kb_key": "g"
+    },
+    {
+      "event": "velo_x_increase",
+      "kb_key": "i"
+    },
+    {
+      "event": "velo_x_decrease",
+      "kb_key": "k"
+    },
+    {
+      "event": "velo_y_increase",
+      "kb_key": "u"
+    },
+    {
+      "event": "velo_y_decrease",
+      "kb_key": "GAMEPAD_HAT_RIGHT"
+    },
+    {
+      "event": "velo_y_decrease",
+      "kb_key": "o"
+    },
+    {
+      "event": "velo_y_increase",
+      "kb_key": "GAMEPAD_HAT_LEFT"
+    },
+    {
+      "event": "velo_yaw_increase",
+      "kb_key": "j"
+    },
+    {
+      "event": "velo_yaw_decrease",
+      "kb_key": "l"
+    },
+    {
+      "event": "pos_z_increase",
+      "kb_key": "q"
+    },
+    {
+      "event": "pos_z_increase",
+      "kb_key": "GAMEPAD_HAT_UP"
+    },
+    {
+      "event": "pos_z_decrease",
+      "kb_key": "e"
+    },
+    {
+      "event": "pos_z_decrease",
+      "kb_key": "GAMEPAD_HAT_DOWN"
+    },
+    {
+      "event": "pos_pitch_increase",
+      "kb_key": "w"
+    },
+    {
+      "event": "pos_pitch_decrease",
+      "kb_key": "s"
+    },
+    {
+      "event": "pos_roll_increase",
       "kb_key": "d"
     },
     {
-      "event": "dance",
-      "kb_key": "GAMEPAD_BUTTON_MENU"
+      "event": "pos_roll_decrease",
+      "kb_key": "a"
+    },
+    {
+      "event": "gamepad_x_move",
+      "kb_key": "GAMEPAD_JOYSTICK_RY"
+    },
+    {
+      "event": "gamepad_yaw_move",
+      "kb_key": "GAMEPAD_JOYSTICK_RX"
+    },
+    {
+      "event": "gamepad_pitch_move",
+      "kb_key": "GAMEPAD_JOYSTICK_LY"
+    },
+    {
+      "event": "gamepad_roll_move",
+      "kb_key": "GAMEPAD_JOYSTICK_LX"
     }
   ]
 }

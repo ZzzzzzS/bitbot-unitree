@@ -17,11 +17,12 @@
 #include "Workers/AbstractWorker.hpp"
 #include "Workers/AsyncLoggerWorker.hpp"
 #include "Workers/ImuProcessWorker.hpp"
-#include "Workers/MotorControlWorker.hpp"
 #include "Workers/MotorResetPositionWorker.hpp"
 #include "Workers/NetCmdWorker.hpp"
 #include "Workers/ActionManagementWorker.hpp"
 #include "Workers/NN/BeyondMimicWorker.hpp"
+#include "Workers/NN/UnitreeRlLabVelocityInferenceWorker.hpp"
+#include "Workers/MITMotorControlWorker.hpp"
 
 #ifdef BUILD_SIMULATION
 #include "bitbot_mujoco/device/mujoco_imu.h"
@@ -79,40 +80,50 @@ constexpr z::CTSPair<"TargetMotorTorque", MotorVec> TargetMotorTorquePair;
 constexpr z::CTSPair<"CurrentMotorPosition", MotorVec> CurrentMotorPosPair;
 constexpr z::CTSPair<"CurrentMotorVelocity", MotorVec> CurrentMotorVelPair;
 constexpr z::CTSPair<"CurrentMotorTorque", MotorVec> CurrentMotorTorquePair;
-constexpr z::CTSPair<"LimitTargetMotorTorque", MotorVec> LimitTargetMotorTorquePair;
-constexpr z::CTSPair<"CurrentMotorPositionRaw", MotorVec> CurrentMotorPosRawPair;
-constexpr z::CTSPair<"CurrentMotorVelocityRaw", MotorVec> CurrentMotorVelRawPair;
+constexpr z::CTSPair<"TargetMotorStiffness", MotorVec> TargetMotorStiffnessPair;
+constexpr z::CTSPair<"TargetMotorDamping", MotorVec> TargetMotorDampingPair;
 
 /********* NN pair ********************/
-constexpr z::CTString Net1Name = "Net1";
+constexpr z::CTString Net1Name = "DanceNet1";
 constexpr z::CTSPair<z::concat(Net1Name, "NetLastAction"), MotorVec> NetLastActionPair;
-constexpr z::CTSPair<z::concat(Net1Name, "Action"), MotorVec> Net1OutPair;
+constexpr z::CTSPair<z::concat(Net1Name, "Action"), MotorVec> DanceNet1OutPair;
 constexpr z::CTSPair<z::concat(Net1Name, "InferenceTime"), RealNumber> InferenceTimePair;
 constexpr z::CTSPair<z::concat(Net1Name, "RefTraj"), MotorVec> Net1RefTrajPair;
 constexpr z::CTSPair<z::concat(Net1Name, "RefVel"), MotorVec> Net1RefVelPair;
 
+/********* NN walk pair ********************/
+constexpr z::CTString WalkNetName = "WalkNet1";
+constexpr z::CTSPair<z::concat(WalkNetName, "NetLastAction"), MotorVec> WalkNetLastActionPair;
+constexpr z::CTSPair<z::concat(WalkNetName, "Action"), MotorVec> WalkNet1OutPair;
+constexpr z::CTSPair<z::concat(WalkNetName, "InferenceTime"), RealNumber> WalkInferenceTimePair;
+constexpr z::CTSPair<z::concat(WalkNetName, "NetProjectedGravity"), Vec3> WalkNetProjectedGravityPair;
+constexpr z::CTSPair<z::concat(WalkNetName, "NetUserCommand3"), Vec3> WalkNetUserCommand3Pair;
 
 // define scheduler
 using SchedulerType = z::AbstractScheduler<ImuAccRawPair, ImuGyroRawPair, ImuMagRawPair,
     ImuAccFilteredPair, ImuGyroFilteredPair, ImuMagFilteredPair,
     TargetMotorPosPair, TargetMotorVelPair, CurrentMotorPosPair, CurrentMotorVelPair, CurrentMotorTorquePair,
-    TargetMotorTorquePair, LimitTargetMotorTorquePair,
-    CurrentMotorVelRawPair, CurrentMotorPosRawPair,
-    NetLastActionPair, InferenceTimePair, Net1OutPair, Net1RefTrajPair, Net1RefVelPair, ImuAlterAngleFilteredPair>;
+    TargetMotorTorquePair, TargetMotorDampingPair, TargetMotorStiffnessPair,
+    NetLastActionPair, InferenceTimePair, DanceNet1OutPair, Net1RefTrajPair, Net1RefVelPair, ImuAlterAngleFilteredPair,
+    WalkNetLastActionPair, WalkNet1OutPair, WalkInferenceTimePair, WalkNetProjectedGravityPair, WalkNetUserCommand3Pair>;
 
 
 //define workers
 using MotorResetWorkerType = z::MotorResetPositionWorker<SchedulerType, RealNumber, JOINT_NUMBER>;
 using ImuWorkerType = z::ImuProcessWorker<SchedulerType, DeviceImu*, RealNumber>;
 using AlterImuWorkerType = z::SimpleCallbackWorker<SchedulerType>;
-using MotorWorkerType = z::MotorControlWorker<SchedulerType, DeviceJoint*, RealNumber, JOINT_NUMBER>;
+using MotorWorkerType = z::MITMotorControlWorker<SchedulerType, DeviceJoint*, RealNumber, JOINT_NUMBER>;
 using LoggerWorkerType = z::AsyncLoggerWorker<SchedulerType, RealNumber, ImuAccRawPair, ImuGyroRawPair, ImuMagRawPair,
     ImuAccFilteredPair, ImuGyroFilteredPair, ImuMagFilteredPair,
     TargetMotorPosPair, TargetMotorVelPair, CurrentMotorPosPair, CurrentMotorVelPair, CurrentMotorTorquePair,
-    TargetMotorTorquePair, LimitTargetMotorTorquePair,
-    NetLastActionPair, InferenceTimePair, Net1OutPair, Net1RefTrajPair, Net1RefVelPair, ImuAlterAngleFilteredPair>;
+    TargetMotorTorquePair, TargetMotorDampingPair, TargetMotorStiffnessPair,
+    NetLastActionPair, InferenceTimePair, DanceNet1OutPair, Net1RefTrajPair, Net1RefVelPair, ImuAlterAngleFilteredPair,
+    WalkNetLastActionPair, WalkNet1OutPair, WalkInferenceTimePair, WalkNetProjectedGravityPair, WalkNetUserCommand3Pair>;
 
-using ActionManagementWorkerType = z::ActionManagementWorker<SchedulerType, RealNumber, Net1OutPair>;
+using CmdWorkerType = z::NetCmdWorker<SchedulerType, RealNumber, WalkNetUserCommand3Pair>;
+using ActionManagementWorkerType = z::ActionAndMotorPropertiesManagementWorker<SchedulerType, RealNumber, DanceNet1OutPair, WalkNet1OutPair>;
 
 /******define actor net************/
 using BeyondMimicUnitreeInferWorkerType = z::BeyondMimicUnitreeInferenceWorker<SchedulerType, Net1Name, RealNumber, JOINT_NUMBER, DANCE_TRAJECTORY_LENGTH>;
+using UnitreeRlLabVelocityInferWorkerType = z::UnitreeRlLabVelocityInferenceWorker<SchedulerType, WalkNetName, RealNumber, 5, JOINT_NUMBER>; // stack 5 frames of history
+

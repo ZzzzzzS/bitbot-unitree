@@ -15,6 +15,10 @@ namespace bitbot {
     inline void SetTargetPosition(float pos) { target_position_ = pos; }
     inline void SetTargetVelocity(float vel) { target_velocity_ = vel; }
     inline void SetTargetTorque(float torque) { target_torque_ = torque; }
+    inline void SetMotionKp(float p) { p_gain_ = p; }
+    inline void SetMotionKd(float d) { d_gain_ = d; }
+    inline float GetMotionKp() { return p_gain_; }
+    inline float GetMotionKd() { return d_gain_; }
 
     void PowerOn();
     void PowerOff();
