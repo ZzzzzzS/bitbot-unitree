@@ -19,18 +19,19 @@ void get_crc(unitree_hg::msg::dds_::LowCmd_& msg) {
 
     memcpy(&raw.reserve[0], &msg.reserve()[0], 4);
 
-    raw.crc = crc32_core((uint32_t*)&raw, (sizeof(LowCmd) >> 2) - 1);
+    raw.crc = crc32_core(&raw, (sizeof(LowCmd) >> 2) - 1);
     msg.crc() = raw.crc;
 }
 
-uint32_t crc32_core(uint32_t* ptr, uint32_t len) {
+uint32_t crc32_core(const void* ptr, uint32_t len) {
+    const auto* bytes = static_cast<const uint8_t*>(ptr);
     uint32_t xbit = 0;
     uint32_t data = 0;
     uint32_t CRC32 = 0xFFFFFFFF;
     const uint32_t dwPolynomial = 0x04c11db7;
     for (uint32_t i = 0; i < len; i++) {
         xbit = 1 << 31;
-        data = ptr[i];
+        memcpy(&data, bytes + i * sizeof(uint32_t), sizeof(uint32_t));
         for (uint32_t bits = 0; bits < 32; bits++) {
             if (CRC32 & 0x80000000) {
                 CRC32 <<= 1;
